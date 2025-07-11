@@ -74,26 +74,29 @@
       };
 
       const generatePDF = () => {
-        if (!apartmentType || people.some(p => !p) || !company) {
-          setError('Por favor, preencha todos os campos.');
-          return;
-        }
-        setError('');
-
-        const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text('Pedido de Hospedagem - MRV', 20, 20);
-        doc.setFontSize(12);
-        doc.text(`Tipo de Apartamento: ${apartmentType} pessoas`, 20, 40);
-        doc.text(`Empresa Terceirizada: ${company}`, 20, 50);
-        doc.text('Pessoas Hospedadas:', 20, 60);
-        people.forEach((person, index) => {
-          doc.text(`${index + 1}. ${person}`, 20, 70 + index * 10);
-        });
-        const pdfOutput = doc.output('datauristring');
-        console.log('PDF gerado (envio simulado para pousadapraiadepontanegra13@gmail.com):', pdfOutput);
-        alert('PDF gerado! Verifique o console para o conteúdo (envio de e-mail não é suportado diretamente no frontend).');
-      };
+          if (!apartmentType || people.some(p => !p) || !company) {
+            setError('Por favor, preencha todos os campos.');
+            return;
+          }
+          setError('');
+        
+          const doc = new jsPDF();
+          doc.setFontSize(16);
+          doc.text('Pedido de Hospedagem - MRV', 20, 20);
+          doc.setFontSize(12);
+          doc.text(`Tipo de Apartamento: ${apartmentType} pessoas`, 20, 40);
+          doc.text(`Empresa Terceirizada: ${company}`, 20, 50);
+          doc.text('Pessoas Hospedadas:', 20, 60);
+          people.forEach((person, index) => {
+            doc.text(`${index + 1}. ${person}`, 20, 70 + index * 10);
+          });
+          
+          // Salva o PDF localmente no dispositivo do usuário
+          doc.save(`pedido_hospedagem_mrv_${new Date().toISOString().slice(0,10)}.pdf`);
+          
+          console.log('PDF gerado e baixado. Envio simulado para pousadapraiadepontanegra13@gmail.com.');
+          alert('PDF gerado e baixado! Verifique seus downloads (envio de e-mail não é suportado diretamente no frontend).');
+        };
 
       return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
